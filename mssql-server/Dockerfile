@@ -18,7 +18,6 @@ ENV MSSQL_PID='Developer'
 
 # Cria uma pasta de configurações
 RUN mkdir -p /usr/config
-WORKDIR /usr/config
 
 # Fonte de configuração do pacote
 COPY . /usr/config
@@ -31,6 +30,6 @@ ENV SCRIPT_STARTUP='/usr/config/script-setup.sql'
 
 EXPOSE 1433
 
-ENTRYPOINT [ "/bin/bash", "./entrypoint.sh" ]
+ENTRYPOINT [ "/bin/bash", "/usr/config/entrypoint.sh" ]
 
 CMD [ "/opt/mssql/bin/sqlservr" ]
