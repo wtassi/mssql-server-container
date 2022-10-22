@@ -1,0 +1,38 @@
+# Referencia: https://hub.docker.com/_/microsoft-mssql-server
+# Verifique a versão disponível e a que deseja utilizar.
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+# Mude para o usuário root para acesso ao apt-get install
+USER root
+
+# Install node/npm
+RUN apt-get -y update  && \
+        apt-get install -y curl && \
+        curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+        apt-get install -y nodejs && \
+        apt-get install -y dos2unix
+
+# Instale 'tedious', o driver do SQL Server para Node.js
+RUN npm install tedious
+
+# Criar diretório de aplicativos
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Instalar dependências de aplicativos
+COPY package.json /usr/src/app/
+RUN npm install
+
+# Origem do aplicativo do pacote
+COPY . /usr/src/app
+
+RUN dos2unix *
+
+# Conceda permissões para que o script de dados de importação seja executável
+RUN chmod +x /usr/src/app/import-data.sh
+
+EXPOSE 8080
+
+# Volte para o usuário mssql e execute o script de ponto de entrada
+USER mssql
+ENTRYPOINT /bin/bash ./entrypoint.sh
