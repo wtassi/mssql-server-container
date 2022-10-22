@@ -22,28 +22,4 @@ if [ "$1" = '/opt/mssql/bin/sqlservr' ]; then
   fi
 fi
 
-# ## Verifica instancia ##
-# DBSTATUS=1
-# ERRCODE=1
-# i=0
-
-# echo "###### Start check instance"
-# while [[ $DBSTATUS -ne 0 ]] && [[ $i -lt 60 ]]; do
-#   let i=$i+1
-#   DBSTATUS=$(/opt/mssql-tools/bin/sqlcmd -h -1 -t 1 -S localhost -U SA -P "$SA_PASSWORD" -Q "SET NOCOUNT ON; Select SUM(state) from sys.databases")
-#   ERRCODE=$?
-#   sleep 2s
-# done
-
-# if [[ $DBSTATUS -ne 0 ]] || [[ $ERRCODE -ne 0 ]]; then
-#   echo "O SQL Server levou mais de 60 segundos para inicializar ou um ou mais bancos de dados não estão no estado ONLINE"
-#   exit 1
-# else
-#   echo "###########################################################################"
-#   echo "###########################################################################"
-#   echo ">>>>>>>>>>>>>>> SQL SERVER INSTALADO COM SUCESSO!!!!! <<<<<<<<<<<<<<<<<<<<<"
-#   echo "###########################################################################"
-#   echo "###########################################################################"
-# fi
-
 exec "$@"
