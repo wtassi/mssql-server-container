@@ -19,12 +19,13 @@ Windows:
 
 ## <u>01. Docker command </u>
 
-Acesse a pasta: <b>./mssql-server</b>
+Acesse a pasta raiz com o terminal powershell.
 
-Dentro desta, encontrará os arquivos:
+Conteúdo da pasta `./mssql-server`:
 ```
 |-- mssql-server
 |   |-- .dockerignore
+|   |-- docker-compose.yml
 |   |-- Dockerfile
 |   |-- entrypoint.sh
 |   |-- script-setup.sql
@@ -69,5 +70,47 @@ docker stop mssql
 # Para Iniciar o container
 docker start mssql
 ```
+[](./Prints/05-SQLExemple.png)
+<img src="Prints/05-SQLExemple.png"/>
+
 
 <hr/>
+
+## <u>02. Docker Compose </u>
+
+Acesse a pasta raiz com o terminal powershell.
+
+O arquivo `./mssql-server/docker-compose.yml` contém a estrutura que irá buildar e montar os diretórios persistentes.
+
+### __CRIAÇÃO__
+Para criar a infraestrutura, execute o comando: 
+
+```
+docker-compose -f .\mssql-server\docker-compose.yml up --build -d
+```
+
+Conecte na instância utilizando os dados configurados com a senha SA ou a de usuário customzado (presente no arquivo script-setup.sql)
+
+Exemplo:
+
+[](./Prints/06-LoginMSSQL.png)
+<img src="Prints/06-LoginMSSQL.png"/>
+
+### __STOP__
+Para "stopar" a instancia, para que possa desligar e preservar a infraestrutura, execute o comando:
+```
+docker-compose -f .\mssql-server\docker-compose.yml stop
+```
+
+### __START__
+Para "startar" a instancia novamente e dar continuidade na utilização, execute o comando:
+```
+docker-compose -f .\mssql-server\docker-compose.yml stop
+```
+
+### __REMOVE__
+Para deletar a infraestrutura criada. execute o comando:
+```
+docker-compose -f .\mssql-server\docker-compose.yml down
+```
+> NOTA: O comando `docker-compose down`, não faz a remoção do volume montado. Neste exemplo, o volume aparecerá na pasta raiz do repositório com o nome `_volume`. Remova manualmente caso não queira preservar os dados.

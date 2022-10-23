@@ -12,7 +12,10 @@ if [ "$1" = '/opt/mssql/bin/sqlservr' ]; then
     # Inicialize o banco de dados do aplicativo de forma assíncrona em um processo em segundo plano. Isso permite que a) o processo do SQL Server seja o processo principal no contêiner, o que permite o desligamento normal e outras vantagens, eb) que iniciemos o processo do SQL Server apenas uma vez, em vez de iniciar, parar e iniciá-lo novamente.
     function initialize_app_database() {
       # Aguarde um pouco para o SQL Server iniciar. O processo do SQL Server não fornece uma maneira inteligente de verificar se está ativo ou não, e precisa estar ativo antes de podermos importar o banco de dados do aplicativo
-      sleep 15s
+      sleep 10s
+      while [ ! -f "/var/opt/mssql/data/tempdb4.ndf" ]; do
+        sleep 10s
+      done
       # Execute o script de configuração para criar o banco de dados e o esquema no banco de dados
       /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i $SCRIPT_STARTUP
       # Observe que o contêiner foi inicializado para que as partidas futuras não limpem as alterações nos dados

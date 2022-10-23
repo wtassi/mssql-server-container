@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  sqlserver:
+    driver: bridge
+
+services:
+  # MSSQL Server
+  mssql-server:
+    image: mssqlserver
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - 1434:1433
+    volumes:
+      #- mssqldata:/var/opt/mssql
+      - ../_volume/data:/var/opt/mssql/data
+      - ../_volume/log:/var/opt/mssql/log
+      - ../_volume/secrets:/var/opt/mssql/secrets
+    networks:
+      - sqlserver
+      
+# volumes:
+#   mssqldata:
+#     driver: local
