@@ -1,4 +1,5 @@
-# <div><img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWO3c8" style="margin-right:-20%;" /> Microsoft SQL Server - Containered </div>
+[](./Prints/00-LogoSQL.png)
+<img src="Prints/00-LogoSQL.png"/>
 
 Link Oficial: https://www.microsoft.com/pt-br/sql-server/
 Este projeto tem de a oferecer métodos diferentes e simples para criar instancias Microsoft SQL Server em container para auxiliar desenvolvedores e testes.
